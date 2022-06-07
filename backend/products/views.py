@@ -3,7 +3,7 @@ from rest_framework import generics
 from .models import Products
 from .serializers import ProductsSerializer
 
-
+# look for the primary key detail of 1 element
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
@@ -34,4 +34,6 @@ product_list_create_view = ProductListCreateAPIView.as_view()
 
 """
 We can use list view instead of creat view as it will list and also allows creation endpoint 
+
+Another point : function based views can also be done but its not recommended as we have to make form scratch and looks confusing (use in special cases)
 """
