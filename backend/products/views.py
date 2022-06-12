@@ -32,6 +32,10 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
+class ProductUpdateAPIView(generics.UpdateAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+
 """
 We can use list view instead of creat view as it will list and also allows creation endpoint 
 
