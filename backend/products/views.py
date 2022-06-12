@@ -1,7 +1,44 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 
 from .models import Products
 from .serializers import ProductsSerializer
+
+
+class ProductMixinView(
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    generics.GenericAPIView):
+
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+    def get(self,request, pk=None, *args, **kwargs):
+        if pk is not None:
+            return self.retrieve(request,*args,**kwargs)
+        return self.list(request,*args, **kwargs)
+
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
+
+    def put(self,request,pk,*args,**kwargs):
+        queryset = Products.objects.get(pk=pk)
+        serializer_class = ProductsSerializer   
+        return self.update(request,*args,**kwargs)
+
+    def delete(self,request,pk,*args,**kwargs):
+        queryset = Products.objects.get(pk=pk)
+        return self.destroy(request,*args,**kwargs)
+
+"""
+look into details about   if serializer.is_valid():
+            serializer.save()
+"""
+
+
+
+product_mixin_view = ProductMixinView.as_view()
 
 # look for the primary key detail of 1 element
 class ProductDetailAPIView(generics.RetrieveAPIView):
