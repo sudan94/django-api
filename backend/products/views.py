@@ -36,6 +36,17 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
+
+class ProductDestroyAPIVIew(generics.DestroyAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+    lookup_field = 'pk'
+
+    def perform_destroy(self, instance):
+        return super().perform_destroy(instance)
+
+product_destroy_view = ProductDestroyAPIVIew.as_view()
+
 """
 We can use list view instead of creat view as it will list and also allows creation endpoint 
 
